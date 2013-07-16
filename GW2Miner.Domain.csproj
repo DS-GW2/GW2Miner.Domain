@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C9195B4-00C4-4A24-8B87-53AAE2DB47A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GW2Miner.Domain</RootNamespace>
+    <AssemblyName>GW2Miner.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Json45r11\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="GemPrice.cs" />
+    <Compile Include="Gw2 API\Items\GameType.cs" />
+    <Compile Include="Gw2 API\Items\gw2apiItem.cs" />
+    <Compile Include="Gw2 API\gw2apiRecipe.cs" />
+    <Compile Include="Gw2 API\Items\InfixUpgrade.cs" />
+    <Compile Include="Gw2 API\Items\InfusionSlot.cs" />
+    <Compile Include="Gw2 API\Items\ItemFlags.cs" />
+    <Compile Include="Gw2 API\Items\Restriction.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Armor.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Back.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Bag.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Consumable.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Container.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Gathering.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Gizmo.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Tool.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Trinket.cs" />
+    <Compile Include="Gw2 API\Items\SubType\UpgradeComponent.cs" />
+    <Compile Include="Gw2 API\Items\SubType\Weapon.cs" />
+    <Compile Include="Gw2DB API\gw2dbItem.cs" />
+    <Compile Include="Gw2DB API\gw2dbRecipe.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyItem.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyItemList.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemBuySellListing.cs" />
+    <Compile Include="Items\ItemList.cs" />
+    <Compile Include="Items\ItemBuySellListingItem.cs" />
+    <Compile Include="Items\ItemSubType.cs" />
+    <Compile Include="Items\ItemRarity.cs" />
+    <Compile Include="Items\ItemType.cs" />
+    <Compile Include="Items\SubType\Armor.cs" />
+    <Compile Include="Items\SubType\Consumable.cs" />
+    <Compile Include="Items\SubType\Container.cs" />
+    <Compile Include="Items\SubType\Gathering.cs" />
+    <Compile Include="Items\SubType\Gizmo.cs" />
+    <Compile Include="Items\SubType\Tool.cs" />
+    <Compile Include="Items\SubType\Trinket.cs" />
+    <Compile Include="Items\SubType\UpgradeComponent.cs" />
+    <Compile Include="Items\SubType\Weapon.cs" />
+    <Compile Include="ItemType.cs" />
+    <Compile Include="JSONConverter.cs" />
+    <Compile Include="Items\MyTransactionsItemList.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Items\Rarity.cs" />
+    <Compile Include="ReflectionUtils.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
