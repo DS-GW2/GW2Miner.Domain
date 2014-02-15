@@ -24,6 +24,8 @@ namespace GW2Miner.Domain
             BoughtPrice = -2;
             Worth = -1;
             ProfitNow = Profit = int.MinValue;
+            Created = DateTime.MinValue;
+            Purchased = DateTime.MinValue;
         }
 
         [JsonProperty("data_id")]
@@ -209,6 +211,46 @@ namespace GW2Miner.Domain
 
         public string UpgradeDescription { get; set; }
         #endregion
+
+        /// <summary>
+        /// Checks if the provided object is equal to the current Item
+        /// </summary>
+        /// <param name="obj">Object to compare to the current Item</param>
+        /// <returns>True if equal, false if not</returns>
+        public override bool Equals(object obj)
+        {
+            // Try to cast the object to compare to to be an item
+            var item = obj as Item;
+
+            return Equals(item);
+        }
+
+        /// <summary>
+        /// Returns an identifier for this instance
+        /// </summary>
+        public override int GetHashCode()
+        {
+            if (Purchased != DateTime.MinValue && Created != DateTime.MinValue) return Purchased.GetHashCode() & Created.GetHashCode();
+
+            return Id.GetHashCode();
+        }
+
+        /// <summary>
+        /// Checks if the provided Item is equal to the current Item
+        /// </summary>
+        /// <param name="personToCompareTo">Item to compare to the current Item</param>
+        /// <returns>True if equal, false if not</returns>
+        public bool Equals(Item itemToCompareTo)
+        {
+            // Check if item is being compared to a non item. In that case always return false.
+            if (itemToCompareTo == null) return false;
+
+            if (Purchased != DateTime.MinValue && Created != DateTime.MinValue) 
+                return (Created == itemToCompareTo.Created && Purchased == itemToCompareTo.Purchased);
+
+            // Check if both item objects contain the same Id. In that case they're assumed equal.
+            return Id == itemToCompareTo.Id;
+        }
 
         public void setConsoleColor()
         {
@@ -424,6 +466,22 @@ namespace GW2Miner.Domain
                 }
                 return tooltipString;
             }
+        }
+    }
+
+    /// <summary>
+    /// ItemComparer Class
+    /// </summary>
+    class ItemComparer : IEqualityComparer<Item>
+    {
+        public bool Equals(Item item1, Item item2)
+        {
+            return item1.Id == item2.Id;
+        }
+
+        public int GetHashCode(Item item)
+        {
+            return item.Id;
         }
     }
 

@@ -16,8 +16,14 @@ namespace GW2Miner.Domain
     [JsonObject(MemberSerialization.OptIn)]
     public class gw2spidyItemList
     {
-        [JsonProperty("total")]
+        [JsonProperty("count")]
         public int Count { get; set; }
+
+        [JsonProperty("page")]
+        public int Page { get; set; }
+
+        [JsonProperty("last_page")]
+        public int LastPage { get; set; }
 
         [JsonProperty("results")]
         public List<Item> Items { get; set; }

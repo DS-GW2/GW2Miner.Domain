@@ -39,7 +39,23 @@ namespace GW2Miner.Domain
         }
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            if (value == null)
+            {
+                writer.WriteNull();
+                return;
+            }
+
+            writer.WriteStartArray();
+
+            int i = 0;
+            string[] values = value.ToString().Split(new string[] { ", " }, StringSplitOptions.None);
+            foreach (string element in values)
+            {
+                writer.WriteValue(element);
+            }
+
+            writer.WriteEndArray();
         }
 
         private object ToEnum(string str, Type enumType)

@@ -240,6 +240,29 @@ namespace GW2Miner.Domain
 
         public List<gw2dbRecipe> Recipes { get; set; }
 
+        public gw2apiItem ToGw2ApiItem
+        {
+            get
+            {
+                gw2apiItem item = new gw2apiItem();
+                item.Id = data_Id;
+                item.MinLevel = MinLevel;
+                item.Name = Name;
+                item.RarityId = RarityId;
+                item.TypeId = TypeId;
+                item.Description = Description;
+
+                foreach (gw2dbRecipe recipe in Recipes)
+                {
+                    item.Recipes.Add(recipe.ToGw2ApiRecipe);
+                }
+
+                // subtypes TBD
+
+                return item;
+            }
+        }
+
         public RarityEnum RarityId
         {
             get
@@ -452,7 +475,7 @@ namespace GW2Miner.Domain
         public int KarmaCost;
 
         [JsonProperty("GoldCost")]
-        public int GoldCost;
+        public float GoldCost;
 
         [JsonProperty("SkillPointCost")]
         public float SkillPointCost;

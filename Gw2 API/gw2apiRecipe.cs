@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace GW2Miner.Domain
 {
@@ -66,7 +67,8 @@ namespace GW2Miner.Domain
         Amulet,
         Ring,
         [EnumMember(Value = "Earring")]
-        Accessory
+        Accessory,
+        Unknown
     }
 
     [DataContract][Flags]
@@ -89,7 +91,9 @@ namespace GW2Miner.Domain
         [EnumMember]
         Jeweler = 0x040,
         [EnumMember(Value = "Chef")]
-        Cook = 0x080
+        Cook = 0x080,
+        [EnumMember(Value = "Mystic Forge")]
+        Mystic_Forge = 0x0100
     }
 
     [DataContract][Flags]
@@ -112,6 +116,14 @@ namespace GW2Miner.Domain
     [JsonObject(MemberSerialization.OptIn)]
     public class gw2apiRecipe
     {
+        public gw2apiRecipe()
+        {
+            MinCraftingCost = new RecipeCraftingCost();
+            IngredientRecipes = new List<gw2dbRecipe>();
+            Sales = new List<ItemBuySellListingItem>();
+            TPLastUpdated = DateTime.MinValue;
+        }
+
         [JsonProperty("recipe_id")]
         public int Id { get; set; }
 
@@ -138,6 +150,152 @@ namespace GW2Miner.Domain
 
         [JsonProperty("ingredients")]
         public List<gw2apiIngredient> Ingredients { get; set; }
+
+        // Compatibility
+        public string Name { get; set; }
+
+        public List<gw2dbRecipe> IngredientRecipes { get; set; }
+
+        public ObtainableMethods BestMethod { get; set; }
+
+        public int CreatedItemAvailability { get; set; }
+
+        public int CreatedItemMinSaleUnitPrice { get; set; }
+
+        public float CreatedItemVendorBuyUnitPrice { get; set; }
+
+        public int CreatedItemMinKarmaUnitPrice { get; set; }
+
+        public float CreatedItemMinSkillPointsUnitPrice { get; set; }
+
+        public int CreatedItemMaxBuyUnitPrice { get; set; }
+
+        public RecipeCraftingCost MinCraftingCost { get; set; }
+
+        public DateTime TPLastUpdated { get; set; }
+
+        public DateTime CraftingCostLastUpdated { get; set; }
+
+        public List<ItemBuySellListingItem> Sales { get; set; }
+
+        public void Print(string indent)
+        {
+            Console.Write("{0}{1}x {2}({3})\t", indent, Quantity, Name, (CreatedItemAvailability == int.MaxValue ? "Max" : CreatedItemAvailability.ToString()));
+            if (Quantity == 0) Debugger.Break();
+            if (BestMethod == ObtainableMethods.Karma)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("KARMA VENDOR({0})", CreatedItemMinKarmaUnitPrice * Quantity);
+            }
+            else if (BestMethod == ObtainableMethods.SkillPoints)
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("SKILLPOINT VENDOR({0})", CreatedItemMinSkillPointsUnitPrice * Quantity);
+            }
+            else if (BestMethod == ObtainableMethods.Unknown)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("NOT CRAFTED, NOT SOLD");
+            }
+            else
+            {
+                if (BestMethod == ObtainableMethods.Buy || BestMethod == ObtainableMethods.Vendor)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else
+                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("{0}({1})", BestMethod == ObtainableMethods.Vendor ? "VENDOR" : "TP", (BestMethod == ObtainableMethods.Vendor ? CreatedItemVendorBuyUnitPrice : CreatedItemMinSaleUnitPrice) * Quantity);
+                if (BestMethod == ObtainableMethods.Craft)
+                    Console.ForegroundColor = ConsoleColor.Green;
+                else
+                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("CRAFT({0})", MinCraftingCost.GoldCost);
+            }
+            Console.ResetColor();
+            if (BestMethod == ObtainableMethods.Craft && IngredientRecipes != null && IngredientRecipes.Count > 0)
+            {
+                foreach (gw2dbRecipe ingredient in IngredientRecipes)
+                {
+                    ingredient.Print(indent + "  ");
+                }
+            }
+        }
+
+        public void ShoppingList(bool useQuantity = true)
+        {
+            Dictionary<int, ShoppingListItem> shoppingList = new Dictionary<int, ShoppingListItem>();
+
+            GenerateShoppingList(shoppingList);
+
+            foreach (ShoppingListItem item in shoppingList.Values)
+            {
+                Console.Write("{0}\t{1}\t", (useQuantity ? item.Quantity : item.Availability), item.Name);
+                if (item.Method == ObtainableMethods.Unknown)
+                {
+                    Console.WriteLine();
+                    continue;
+                }
+                else if (item.Method == ObtainableMethods.Karma)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                else if (item.Method == ObtainableMethods.SkillPoints)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                }
+
+                Console.WriteLine("{0}\t{1}", item.UnitPrice, item.UnitPrice * (useQuantity ? item.Quantity : item.Availability));
+                Console.ResetColor();
+            }
+        }
+
+        internal void GenerateShoppingList(Dictionary<int, ShoppingListItem> shoppingList)
+        {
+            if (BestMethod == ObtainableMethods.Craft && IngredientRecipes != null && IngredientRecipes.Count > 0)
+            {
+                foreach (gw2dbRecipe ingredient in IngredientRecipes)
+                {
+                    ingredient.CreatedItemAvailability = (int)Math.Floor((double)CreatedItemAvailability * ingredient.Quantity / Quantity);
+                    ingredient.GenerateShoppingList(shoppingList);
+                }
+            }
+            else
+            {
+                if (shoppingList.ContainsKey(CreatedDataId))
+                {
+                    shoppingList[CreatedDataId].Quantity += Quantity;
+                    shoppingList[CreatedDataId].Availability += CreatedItemAvailability;
+                }
+                else
+                {
+                    ShoppingListItem shoppingItem = new ShoppingListItem();
+                    shoppingItem.Name = Name;
+                    shoppingItem.Quantity = Quantity;
+                    shoppingItem.Availability = CreatedItemAvailability;
+                    shoppingItem.Method = BestMethod;
+
+                    switch (BestMethod)
+                    {
+                        case ObtainableMethods.Karma:
+                            shoppingItem.UnitPrice = CreatedItemMinKarmaUnitPrice;
+                            break;
+
+                        case ObtainableMethods.SkillPoints:
+                            shoppingItem.UnitPrice = CreatedItemMinSkillPointsUnitPrice;
+                            break;
+
+                        case ObtainableMethods.Buy:
+                            shoppingItem.UnitPrice = CreatedItemMinSaleUnitPrice;
+                            break;
+
+                        case ObtainableMethods.Vendor:
+                            shoppingItem.UnitPrice = CreatedItemVendorBuyUnitPrice;
+                            break;
+                    }
+
+                    shoppingList.Add(CreatedDataId, shoppingItem);
+                }
+            }
+        }
     }
 
     [JsonObject(MemberSerialization.OptIn)]

@@ -69,8 +69,12 @@
     <Compile Include="Gw2 API\Items\SubType\Weapon.cs" />
     <Compile Include="Gw2DB API\gw2dbItem.cs" />
     <Compile Include="Gw2DB API\gw2dbRecipe.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyGemPrice.cs" />
     <Compile Include="Gw2Spidy API\gw2spidyItem.cs" />
     <Compile Include="Gw2Spidy API\gw2spidyItemList.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyItemListings.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyRecipe.cs" />
+    <Compile Include="Gw2Spidy API\gw2spidyRecipeList.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemBuySellListing.cs" />
     <Compile Include="Items\ItemList.cs" />

@@ -22,14 +22,15 @@ namespace GW2Miner.Domain
         Tonics = 4,         // Suppose to be Generic?
         Transmutation = 5,
         Unlock,
-        Skins = 7,
-        Dyes_and_Recipes = 8,  // Suppose to be Unlock?
-        Utility = 9,
+        Skins = 8,
+        Dyes_and_Recipes = 9,  // Suppose to be Unlock?
+        Utility = 12,
         [EnumMember(Value = "ContractNpc")]
         Contract_Npc,
         [EnumMember(Value = "AppearanceChange")]
         Appearance_Change,
         Immediate,
-        Halloween
+        Halloween,
+        Unknown
     };
 }

@@ -19,7 +19,8 @@ namespace GW2Miner.Domain
         [EnumMember(Value = "BagSlot")]
         Bag_Slot,
         [EnumMember(Value = "BankTab")]
-        Bank_Tab
+        Bank_Tab,
+        Unknown
     }
 
     /// <summary>

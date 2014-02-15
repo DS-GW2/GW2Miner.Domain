@@ -18,6 +18,11 @@ namespace GW2Miner.Domain
     [JsonObject(MemberSerialization.OptIn)]
     public class gw2apiItem
     {
+        public gw2apiItem()
+        {
+            Recipes = new List<gw2apiRecipe>();
+        }
+
         [JsonProperty("item_id")]
         public int Id { get; set; }
 
@@ -38,6 +43,12 @@ namespace GW2Miner.Domain
 
         [JsonProperty("vendor_value")]
         public int VendorPrice { get; set; }
+
+        [JsonProperty("icon_file_id")]
+        public ulong IconFileId;
+
+        [JsonProperty("icon_file_signature")]
+        public string IconFileSignature;
 
         [JsonProperty("game_types")]
         public GW2APIGameTypeEnum GameType;
@@ -80,5 +91,7 @@ namespace GW2Miner.Domain
 
         [JsonProperty("weapon")]
         public gw2apiWeaponItem Weapon;
+
+        public List<gw2apiRecipe> Recipes { get; set; }
     }
 }
