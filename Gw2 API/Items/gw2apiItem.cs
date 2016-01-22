@@ -44,6 +44,9 @@ namespace GW2Miner.Domain
         [JsonProperty("vendor_value")]
         public int VendorPrice { get; set; }
 
+        [JsonProperty("default_skin")]
+        public int DefaultSkin { get; set; }
+
         [JsonProperty("icon_file_id")]
         public ulong IconFileId;
 

@@ -41,6 +41,8 @@ namespace GW2Miner.Domain
         Toy,
         [EnumMember(Value = "TwoHandedToy")]
         Two_Handed_Toy,
+        [EnumMember(Value = "SmallBundle")]
+        Small_Bundle,
         [EnumMember(Value = "LargeBundle")]
         Large_Bundle
     };

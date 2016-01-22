@@ -33,7 +33,9 @@ namespace GW2Miner.Domain
         SoulBound_On_Acquire = 0x080,
         [EnumMember(Value = "SoulBindOnUse")]
         SoulBound_On_Use = 0x0100,
+        [EnumMember(Value = "AccountBindOnUse")]
+        AccountBound_On_Use = 0x0200,
         [EnumMember]
-        Unique = 0x0200
+        Unique = 0x0400
     }
 }

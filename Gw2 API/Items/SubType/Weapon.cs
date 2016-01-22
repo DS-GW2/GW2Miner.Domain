@@ -16,7 +16,8 @@ namespace GW2Miner.Domain
         Physical,
         Fire,
         Ice,
-        Lightning
+        Lightning,
+        Choking
     }
 
     /// <summary>
@@ -52,5 +53,8 @@ namespace GW2Miner.Domain
 
         [JsonProperty("suffix_item_id")]
         public int? UpgradeId { get; set; }
+
+        [JsonProperty("secondary_suffix_item_id")]
+        public int? SecondaryUpgradeId { get; set; }
     }
 }

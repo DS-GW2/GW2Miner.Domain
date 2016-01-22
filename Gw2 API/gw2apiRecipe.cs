@@ -15,6 +15,10 @@ namespace GW2Miner.Domain
     public enum GW2APIRecipeType
     {
         Refinement,
+        [EnumMember(Value = "RefinementEctoplasm")]
+        Refinement_Ectoplasm,
+        [EnumMember(Value = "RefinementObsidian")]
+        Refinement_Obsidian,
         Component,
         Bulk,
         Bag,
@@ -68,6 +72,7 @@ namespace GW2Miner.Domain
         Ring,
         [EnumMember(Value = "Earring")]
         Accessory,
+        Backpack,
         Unknown
     }
 
@@ -147,6 +152,9 @@ namespace GW2Miner.Domain
 
         [JsonProperty("time_to_craft_ms")]
         public int CraftingTime { get; set; }
+
+        [JsonProperty("vendor_value")]
+        public int VendorPrice { get; set; }
 
         [JsonProperty("ingredients")]
         public List<gw2apiIngredient> Ingredients { get; set; }

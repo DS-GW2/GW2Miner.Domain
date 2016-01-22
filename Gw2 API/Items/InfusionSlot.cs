@@ -36,7 +36,7 @@ namespace GW2Miner.Domain
         [JsonProperty("flags")]
         public GW2APIInfusionSlotFlagsEnum Flags;
 
-        //[JsonProperty("item")]
-        //public string Item;
+        [JsonProperty("item_id")]
+        public int ItemID;
     }
 }

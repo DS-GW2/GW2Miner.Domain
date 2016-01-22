@@ -27,17 +27,50 @@ namespace GW2Miner.Domain
     /// </summary>
     /// <remarks>
     /// </remarks>
+    //[JsonObject(MemberSerialization.OptIn)]
+    //public class ItemList
+    //{
+    //    [JsonProperty("total")]
+    //    public int Total { get; set; }
+
+    //    [JsonProperty("args")]
+    //    public Args args { get; set; }
+
+    //    [JsonProperty("results")]
+    //    public List<Item> Items { get; set; }
+    //}
+
+    /// <summary>
+    /// Serializes the top level of the item listing
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
     [JsonObject(MemberSerialization.OptIn)]
-    public class ItemList
+    public class ItemListItem
     {
-        [JsonProperty("total")]
-        public int Total { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
 
-        [JsonProperty("args")]
-        public Args args { get; set; }
+        [JsonProperty("sells")]
+        public ItemPriceBuySell MinSalePrice { get; set; }
 
-        [JsonProperty("results")]
-        public List<Item> Items { get; set; }
+        [JsonProperty("buys")]
+        public ItemPriceBuySell MaxOfferPrice { get; set; }
+    }
+
+        /// <summary>
+    /// Serializes the top level of the item listing
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    [JsonObject(MemberSerialization.OptIn)]
+    public class ItemPriceBuySell
+    {
+        [JsonProperty("quantity")]
+        public int NumberAvailable { get; set; }
+
+        [JsonProperty("unit_price")]
+        public int PricePerUnit { get; set; }
     }
 
     /// <summary>

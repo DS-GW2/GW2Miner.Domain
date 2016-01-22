@@ -31,6 +31,8 @@ namespace GW2Miner.Domain
         Appearance_Change,
         Immediate,
         Halloween,
+        UnTransmutation,
+        UpgradeRemoval,
         Unknown
     };
 }

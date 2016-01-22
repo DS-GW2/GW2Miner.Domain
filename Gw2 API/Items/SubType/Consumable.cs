@@ -20,6 +20,9 @@ namespace GW2Miner.Domain
         Bag_Slot,
         [EnumMember(Value = "BankTab")]
         Bank_Tab,
+        [EnumMember(Value = "CollectibleCapacity")]
+        Collectible_Capacity,
+        Content,
         Unknown
     }
 
@@ -41,6 +44,9 @@ namespace GW2Miner.Domain
 
         [JsonProperty("recipe_id")]
         public int RecipeId;
+
+        [JsonProperty("color_id")]
+        public int ColorId;
 
         [JsonProperty("duration_ms")]
         public int DurationInMS { get; set; }
